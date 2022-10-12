@@ -1,8 +1,9 @@
-import views.MenuProduct;
+import views.LoginAdminMenu;
+import views.MenuAdmin;
 
 public class Main {
     public static void main(String[] args) {
-        MenuProduct menuProduct = new MenuProduct();
-        menuProduct.menuProduct();
+        LoginAdminMenu loginAdminMenu = new LoginAdminMenu();
+        loginAdminMenu.loginAdmin();
     }
 }

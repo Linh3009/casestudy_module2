@@ -5,10 +5,10 @@ import models.Product;
 
 import java.util.Scanner;
 
-public class MenuProduct {
+public class MenuAdmin {
     Scanner scanner = new Scanner(System.in);
     ProductManager productManager = new ProductManager();
-    public void menuProduct(){
+    public void menuAdmin(){
         while (true){
             System.out.println("=====Quản Lý Sản Phẩm=====");
             System.out.println("*******************************");
@@ -19,7 +19,8 @@ public class MenuProduct {
             System.out.println("4. Xóa sản phẩm");
             System.out.println("5. Tìm kiếm sản phẩm");
             System.out.println("6. Sắp xếp sản phẩm theo giá");
-            System.out.println("7. Thoát");
+            System.out.println("7. Quản lý user");
+            System.out.println("8. Thoát");
 
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice){
@@ -37,9 +38,15 @@ public class MenuProduct {
                     productManager.remove();
                     break;
                 case 5:
+                    productManager.search();
                     break;
                 case 6:
-
+                    productManager.sort();
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    return;
             }
         }
     }

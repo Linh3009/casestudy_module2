@@ -2,9 +2,13 @@ package managers;
 
 import io.ReadAndWrite;
 import models.Product;
+import sort.SortByPriceDown;
+import sort.SortByPriceUp;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 public class ProductManager {
@@ -13,16 +17,18 @@ public class ProductManager {
     ReadAndWrite<Product> productReadAndWrite = new ReadAndWrite<>();
     ArrayList<Product> productArrayList = productReadAndWrite.read(fileProduct);
 
-    public void showProduct(){
+    List<Product> products = productReadAndWrite.read(fileProduct);
+    public void showProduct() {
         for (Product product : productArrayList) {
             System.out.println(product.toString());
         }
     }
 
-    public void addProduct(Product product){
+    public void addProduct(Product product) {
         productArrayList.add(product);
-        productReadAndWrite.write(fileProduct,productArrayList);
+        productReadAndWrite.write(fileProduct, productArrayList);
     }
+
     public int findIndexById(int id) {
         for (int i = 0; i < productArrayList.size(); i++) {
             if (productArrayList.get(i).getId() == id) {
@@ -44,15 +50,15 @@ public class ProductManager {
             }
             System.out.println("Nhập trùng id rồi.");
         }
-        System.out.println("Nhập name");
+        System.out.println("Nhập name :");
         String name = scanner.nextLine();
-        System.out.println("Nhập describe");
+        System.out.println("Nhập describe :");
         String describe = scanner.nextLine();
-        System.out.println("Nhập price");
+        System.out.println("Nhập price :");
         int price = Integer.parseInt(scanner.nextLine());
-        System.out.println("Nhập amount");
+        System.out.println("Nhập amount :");
         int amount = Integer.parseInt(scanner.nextLine());
-        return new Product(id, name, describe, price, amount );
+        return new Product(id, name, describe, price, amount);
     }
 
     public void edit() {
@@ -61,25 +67,59 @@ public class ProductManager {
         int index = findIndexById(id);
         if (index != -1) {
             productArrayList.set(index, create());
-        }else {
+        } else {
             System.out.println("Không có id nào trùng với id sản phẩm cần sửa");
         }
-        productReadAndWrite.write(fileProduct,productArrayList);
+        productReadAndWrite.write(fileProduct, productArrayList);
     }
-    public void remove(){
+
+    public void remove() {
         System.out.println("Nhập id sản phẩm bạn muốn xóa :");
         int id = Integer.parseInt(scanner.nextLine());
         int index = findIndexById(id);
         if (index != -1) {
-                productArrayList.remove(productArrayList.get(index));
-            } else {
-                System.out.println("Không có id nào trùng với id sản phẩm cần xóa");
-            }
-        productReadAndWrite.write(fileProduct,productArrayList);
+            productArrayList.remove(productArrayList.get(index));
+        } else {
+            System.out.println("Không có id nào trùng với id sản phẩm cần xóa");
         }
+        productReadAndWrite.write(fileProduct, productArrayList);
+    }
 
-        public void findProduct(){
-            System.out.println("Nhập tên cần tìm kiếm");
+    public void search() {
+        boolean check = false;
+        System.out.println("Nhập tên cần tìm kiếm: ");
+        String ten = scanner.nextLine();
+        for (int i = 0; i < productArrayList.size(); i++) {
+            if (productArrayList.get(i).getName().contains(ten)) {
+                System.out.println(productArrayList.get(i));
+                check = true;
+            }
+        }
+        if (!check) {
+            System.out.println("không tìm thấy tên sản phẩm");
         }
     }
+    public void sort(){
+        System.out.println(" chọn cách sắp xếp");
+        System.out.println("1. giá tăng dần");
+        System.out.println("2. giá giảm dần");
+        int choice1 = Integer.parseInt(scanner.nextLine());
+
+        switch (choice1) {
+            case 1:
+                products.sort(new SortByPriceUp());
+                for (Product pt : products) {
+                    System.out.println(pt);
+                }
+                break;
+
+            case 2:
+                products.sort(new SortByPriceDown());
+                for (Product pt : products) {
+                    System.out.println(pt);
+                }
+                break;
+        }
+    }
+}
 
